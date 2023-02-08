@@ -5,14 +5,22 @@ import com.github.kotlintelegrambot.entities.ChatId
 import java.util.*
 
 fun main() {
+    val ratKingToken = "ratKingToken"
+    val users = arrayOf("@User1", "@User2", "@User3")
+    val actions = arrayOf("присылает селфи", "расказывает анекдот", "воет как псина в аудиосообщении")
+    val randomUser = doRandom(users)
+    val randomAction = doRandom(actions)
+
     val bot = bot {
-        token = "anyToken"
+        token = ratKingToken
         dispatch {
+            text("апекс пидоры") {
+                bot.sendMessage(
+                    chatId = ChatId.fromId(message.chat.id),
+                    text = users.joinToString(" ") + " готовность?"
+                )
+            }
             text("Запускаю короля крыс") {
-                fun doRandom(array: Array<String>) = array[(Math.random() * array.size).toInt()]
-                val randomUser = doRandom(arrayOf("@User1", "@User22", "@User3"))
-                val randomAction =
-                    doRandom(arrayOf("присылает селфи", "расказывает анекдот", "воет как псина в аудиосообщении"))
                 Timer().scheduleAtFixedRate(object : TimerTask() {
                     override fun run() {
                         bot.sendMessage(chatId = ChatId.fromId(message.chat.id), text = "$randomUser крыса")
@@ -24,3 +32,5 @@ fun main() {
     }
     bot.startPolling()
 }
+
+fun doRandom(array: Array<String>) = array[(Math.random() * array.size).toInt()]
